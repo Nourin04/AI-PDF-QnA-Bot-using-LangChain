@@ -1,0 +1,13 @@
+langchain
+langchain-groq
+langchain-community
+langchainhub
+groq
+pypdf
+faiss-cpu
+sentence-transformers
+streamlit
+python-dotenv
+PyPDF2
+transformers
+accelerate
