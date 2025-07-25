@@ -1,47 +1,50 @@
 
-# 🧠 AI PDF Q&A Bot using LangChain
+# AI PDF Q&A Bot using LangChain & Groq API
 
-A simple AI-powered application that allows users to ask questions based on the content of a PDF file. It leverages **LangChain**, **OpenAI's embeddings**, **FAISS vector store**, and **Streamlit** to provide context-aware answers from documents.
+This is a lightweight PDF Question-Answering Bot that lets you upload any academic or general-purpose PDF and ask questions based on its content. It uses **Groq's blazing-fast API with LLaMA 3** for answering, and **LangChain** for document processing and retrieval.
 
 ---
 
-## 🚀 Features
+## ✅ Features
 
-- Upload any PDF and ask questions based on its content.
-- Retrieves the most relevant sections of the PDF using vector similarity.
-- Uses OpenAI's LLM to answer questions based on the document.
-- Fast and responsive web interface built with Streamlit.
+- Upload and analyze **PDF** documents.
+- Ask **natural language questions** based on document content.
+- Uses **Groq API with Meta’s LLaMA 3** — much faster than OpenAI.
+- Extracts, chunks, embeds, and searches document content using **FAISS**.
+- Clean and interactive UI with **Streamlit**.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component        | Purpose                                                                 |
-|------------------|-------------------------------------------------------------------------|
-| **LangChain**    | Framework to handle document loading, splitting, and retrieval pipelines. |
-| **OpenAI API**   | Used to generate answers using GPT models and create embeddings.        |
-| **FAISS**        | Efficient similarity search in a vector database (used for document retrieval). |
-| **Streamlit**    | Lightweight Python web framework to build the interactive UI.           |
-| **PyMuPDF / fitz**| PDF reading and parsing.                                                |
-| **dotenv**       | Loads environment variables (like API keys) from `.env` securely.       |
+| Tool/Library     | Purpose |
+|------------------|---------|
+| **LangChain**    | Framework for chaining LLM + document processing. |
+| **Groq API**     | LLM backend using `llama3-8b-8192`. |
+| **FAISS**        | Local vector database for semantic search. |
+| **PyMuPDF** (`fitz`) | Extract text from PDFs. |
+| **Streamlit**    | Frontend web app UI. |
+| **dotenv**       | Manage secrets like Groq API keys. |
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 
-```plaintext
+```bash
 AI-PDF-QnA-Bot-using-LangChain/
 │
-├── app.py                  # Main Streamlit app
-├── qa_bot.py               # Core logic for processing PDF and answering queries
-├── requirements.txt        # Python dependencies
-├── .gitignore              # Files to exclude from version control
-└── README.md               # You're reading this!
+├── app.py                    # Main Streamlit app
+├── qa_bot.py                 # Handles loading, chunking, embedding, querying PDFs
+├── generate_vector_store.py  # Script to precompute vector store (optional)
+├── faiss_index/              # FAISS vector DB (auto-created)
+├── requirements.txt          # Required dependencies
+├── .env                      # Your Groq API key (not to be pushed to GitHub)
+└── README.md                 # Project documentation
 ````
 
 ---
 
-## ⚙️ Setup Instructions
+## 🔐 Setup Instructions
 
 ### 1. Clone the Repository
 
@@ -54,52 +57,67 @@ cd AI-PDF-QnA-Bot-using-LangChain
 
 ```bash
 python -m venv venv
-venv\Scripts\activate     # On Windows
-# OR
-source venv/bin/activate  # On macOS/Linux
+venv\Scripts\activate     # For Windows
+# or
+source venv/bin/activate  # For macOS/Linux
 ```
 
-### 3. Install Dependencies
+### 3. Install Required Packages
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Setup Environment Variables
+### 4. Add Your Groq API Key
 
-Create a file named `.env` in the root folder:
+Create a `.env` file in the root folder with the following:
 
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
-> ⚠️ Make sure your `.env` file is **not pushed to GitHub**. It’s listed in `.gitignore` already.
+You can get your API key from [https://console.groq.com/keys](https://console.groq.com/keys)
 
 ---
 
-## ▶️ Run the App
+## ▶️ Run the Application
 
 ```bash
 streamlit run app.py
 ```
 
-Then open the provided local URL in your browser (usually `http://localhost:8501`).
+This will open the bot in your browser at `http://localhost:8501`.
 
 ---
 
-## 📌 How It Works
+## ⚙️ How It Works
 
-1. **Upload PDF** via Streamlit interface.
-2. `qa_bot.py`:
+1. **PDF Upload** – Users upload a PDF via the UI.
+2. **Text Extraction** – The app extracts and splits the text into manageable chunks.
+3. **Vectorization** – FAISS creates embeddings and stores them locally.
+4. **Q\&A** – When a question is asked, relevant chunks are retrieved using vector similarity and passed to the Groq-powered LLM for answering.
 
-   * Uses LangChain to load and split the PDF.
-   * Converts chunks into vector embeddings using OpenAI.
-   * Stores and searches using FAISS for context retrieval.
-3. Uses OpenAI’s LLM to generate an answer based on top-matching PDF chunks.
-4. Displays the final answer in the UI.
+---
+
+## ❌ .gitignore Tips
+
+Ensure the following files are ignored in Git:
+
+```gitignore
+venv/
+.env
+__pycache__/
+*.pyc
+faiss_index/
+```
 
 ---
 
 
+## 📌 Future Ideas
 
+* Multi-file PDF support
+* Highlighting answer context inside the document
+* Caching API responses
+* Add chat memory using LangChain
 
