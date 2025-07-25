@@ -1,5 +1,4 @@
 
-````markdown
 # 🧠 AI PDF Q&A Bot using LangChain
 
 A simple AI-powered application that allows users to ask questions based on the content of a PDF file. It leverages **LangChain**, **OpenAI's embeddings**, **FAISS vector store**, and **Streamlit** to provide context-aware answers from documents.
